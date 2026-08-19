@@ -84,6 +84,33 @@ export class MockDataverseService implements DataverseService {
     return paginate(records, pageSize, options.pageToken);
   }
 
+  async getChartData(entity?: string): Promise<{ breakdown: { status: string; count: number }[]; trend: { date: string; count: number; amount?: number }[] }> {
+    const records = FIXTURES[(entity as SupportedEntity) ?? "accounts"] ?? FIXTURES.accounts;
+    const counts = new Map<string, number>();
+    for (const r of records) counts.set(r.status, (counts.get(r.status) ?? 0) + 1);
+    const breakdown = [...counts.entries()].map(([status, count]) => ({ status, count }));
+    // Last 14 days trend from createdOn histogram (mock: derive from record dates)
+    const trendMap = new Map<string, number>();
+    for (const r of records) {
+      const day = r.createdOn.slice(0, 10);
+      trendMap.set(day, (trendMap.get(day) ?? 0) + 1);
+    }
+    const trend = [...trendMap.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-14)
+      .map(([date, count]) => ({ date, count }));
+    // Pad to 14 if needed
+    while (trend.length < 7) {
+      const last = trend[trend.length - 1]?.date ?? "2025-01-01";
+      const d = new Date(last);
+      d.setDate(d.getDate() + 1);
+      const iso = d.toISOString().slice(0, 10);
+      if (!trend.find((t) => t.date === iso)) trend.push({ date: iso, count: 0 });
+      else break;
+    }
+    return { breakdown, trend };
+  }
+
   async getKpis(): Promise<KpisResponse> {
     const totalAccounts = FIXTURES.accounts.length;
     const totalContacts = FIXTURES.contacts.length;

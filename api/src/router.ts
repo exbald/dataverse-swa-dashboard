@@ -5,6 +5,7 @@
 import { handleHealth } from "./handlers/health.js";
 import { handleKpis } from "./handlers/kpis.js";
 import { handleEntities } from "./handlers/entities.js";
+import { handleChart } from "./handlers/chart.js";
 import type { ApiContext, ApiResponse } from "./handlers/health.js";
 
 export async function routeRequest(ctx: ApiContext): Promise<ApiResponse> {
@@ -20,6 +21,9 @@ export async function routeRequest(ctx: ApiContext): Promise<ApiResponse> {
   if (ctx.method === "GET" && path.startsWith("entities/")) {
     const entity = path.split("/")[1];
     return handleEntities({ ...ctx, params: { entity: entity ?? "" } });
+  }
+  if (ctx.method === "GET" && (path === "chart" || path === "/chart" || path.startsWith("chart"))) {
+    return handleChart(ctx);
   }
   // Fallback: try entity from params
   if (ctx.method === "GET" && ctx.params?.entity) {

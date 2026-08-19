@@ -182,6 +182,26 @@ export class LiveDataverseService implements DataverseService {
     return { data, nextPageToken, totalCount: body["@odata.count"] };
   }
 
+  async getChartData(entity?: string): Promise<{ breakdown: { status: string; count: number }[]; trend: { date: string; count: number; amount?: number }[] }> {
+    // Live chart: aggregate via listEntities + in-memory breakdown (replace with FetchXML/aggregate when schema fixed)
+    const target = (entity as SupportedEntity) ?? "accounts";
+    try {
+      const page = await this.listEntities(target as SupportedEntity, { pageSize: 100 });
+      const counts = new Map<string, number>();
+      for (const r of page.data) counts.set(r.status, (counts.get(r.status) ?? 0) + 1);
+      const breakdown = [...counts.entries()].map(([status, count]) => ({ status, count }));
+      const trendMap = new Map<string, number>();
+      for (const r of page.data) {
+        const day = r.createdOn.slice(0, 10);
+        trendMap.set(day, (trendMap.get(day) ?? 0) + 1);
+      }
+      const trend = [...trendMap.entries()].sort(([a],[b])=>a.localeCompare(b)).slice(-14).map(([date,count])=>({date,count}));
+      return { breakdown, trend };
+    } catch {
+      return { breakdown: [], trend: [] };
+    }
+  }
+
   async getKpis(): Promise<KpisResponse> {
     // Aggregate via Dataverse queries — simplified; real impl would use FetchXML or OData aggregates
     const correlationId = this.config.correlationId ?? "live-kpis";

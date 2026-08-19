@@ -13,4 +13,7 @@ export interface DataverseService {
   listEntities(entity: SupportedEntity, options: ListEntitiesOptions): Promise<PaginatedResponse<EntityRecord>>;
   /** Get KPIs aggregated from entity data. */
   getKpis(): Promise<KpisResponse>;
+  /** Get chart data (status breakdown + trend). */
+  getChartData(entity?: string): Promise<{ breakdown: { status: string; count: number }[]; trend: { date: string; count: number; amount?: number }[] }>;
+
 }
