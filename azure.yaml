@@ -1,0 +1,23 @@
+# Name: Dataverse SWA Dashboard
+name: dataverse-swa-dashboard
+
+# azd model — single service (SWA). `azd up` provisions + deploys.
+# If you prefer pure Bicep/az CLI, use infra/main.bicep directly and ignore this file.
+
+metadata:
+  template: dataverse-swa-dashboard@0.1.0
+
+services:
+  web:
+    project: .
+    language: js
+    host: staticWebApp
+    dist: dist
+
+infra:
+  provider: bicep
+  path: infra
+  module: main
+
+pipeline:
+  provider: github
