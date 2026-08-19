@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+dist/
+api/dist/
+
+# Secrets / env
+.env
+.env.local
+api/local.settings.json
+*.pem
+*.pfx
+*.key
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# SWA CLI
+.swa/

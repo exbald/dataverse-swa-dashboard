@@ -1,0 +1,19 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "DATAVERSE_MODE": "mock",
+    "DATAVERSE_URL": "https://your-org.crm.dynamics.com",
+    "DATAVERSE_TENANT_ID": "00000000-0000-0000-0000-000000000000",
+    "DATAVERSE_CLIENT_ID": "00000000-0000-0000-0000-000000000000",
+    "DATAVERSE_CLIENT_SECRET": "",
+    "ENTRA_ALLOWED_TENANT_IDS": "",
+    "API_CACHE_TTL": "60"
+  },
+  "Host": {
+    "CORS": "*",
+    "CORSCredentials": false
+  },
+  "ConnectionStrings": {}
+}
