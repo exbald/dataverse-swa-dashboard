@@ -149,6 +149,14 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <div
+        className="preview-banner"
+        role="status"
+        aria-label="Preview — mock data"
+      >
+        Preview &middot; mock data &mdash; not production &mdash; temporary isolated deployment &middot;{" "}
+        <span className="preview-banner__mode">DATAVERSE_MODE=mock</span>
+      </div>
       <Header authStatus={authStatus} />
 
       <main className="main">

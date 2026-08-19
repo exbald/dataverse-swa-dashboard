@@ -1,3 +1,25 @@
+/* Banner — Preview / mock data (isolated temporary deployment) */
+.preview-banner {
+  background: linear-gradient(90deg, #fff3cd 0%, #ffe69c 100%);
+  border-bottom: 1px solid #e6b800;
+  color: #664d03;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 7px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+.preview-banner__mode {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  background: rgba(102, 77, 3, 0.1);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
 /* Layout */
 .app-shell {
   min-height: 100vh;
